@@ -40,6 +40,8 @@ class Character(Base):
     eye_color = Column(String(120), nullable=False)
     birth_year = Column(String(120), nullable=False)
     gender = Column(String(120), nullable=False)
+    planet_id = Column(Integer, ForeignKey('planet.id'), nullable=False)
+    vehicles = relationship('Vehicles', backref='character', lazy=True)
 
 class Vehicle(Base):
     __tablename__ = 'vehicle'
@@ -53,6 +55,7 @@ class Vehicle(Base):
     cargo_capacity = Column(String(120), nullable=False)
     vehicle_class= Column(String(120), nullable=False)
     manufacturer= Column(String(120), nullable=False)
+    character_id = Column(Integer, ForeignKey('character.id'), nullable=False)
 
 class Planet(Base):
     __tablename__ = 'planet'
@@ -66,6 +69,7 @@ class Planet(Base):
     terrain = Column(String(120), nullable=False)
     surface_water = Column(String(120), nullable=False)
     population = Column(String(120), nullable=False)
+    characters = relationship('Character', backref='planet', lazy=True)
 
 ## Draw from SQLAlchemy base
 render_er(Base, 'diagram.png')
